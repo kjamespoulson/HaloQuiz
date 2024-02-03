@@ -43,4 +43,19 @@ q3_mapping = {'A': [grunt], 'B': [elite, jackal, hunter]}
 q3 = Question('Are you more of a comedian or a stoic?', q3_answers,
               q3_mapping)
 
-question_list = [q1, q2, q3]
+q4_answers = ['A: rock', 'B: rap', 'C: pop', 'D: country', 'E: EDM']
+q4_mapping = {'A': [elite], 'B': [hunter], 'C': [grunt], 'D': [flood],
+              'E': [jackal]}
+q4 = Question('Which genre of music do you like most?', q4_answers,
+              q4_mapping)
+
+q5_answers = ['A: fight', 'B: flight']
+q5_mapping = {'A': [hunter, flood], 'B': [grunt, jackal]}
+q5 = Question('Do you fight or flight?', q5_answers, q5_mapping)
+
+q6_answers = ['A: 0', 'B: 1', 'C: 2', 'D: 3', 'E: 4+']
+q6_mapping = {'A': [hunter], 'B': [elite], 'C': [jackal], 'D': [grunt],
+              'E': [flood]}
+q6 = Question('How many bones have you broken?', q6_answers, q6_mapping)
+
+question_list = [q1, q2, q4, q3, q5, q6]
