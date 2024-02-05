@@ -58,4 +58,15 @@ q6_mapping = {'A': [hunter], 'B': [elite], 'C': [jackal], 'D': [grunt],
               'E': [flood]}
 q6 = Question('How many bones have you broken?', q6_answers, q6_mapping)
 
-question_list = [q1, q2, q4, q3, q5, q6]
+q7_answers = ['A: <5\'', 'B: 5\'1" - 5\'4"',
+              'C: 5\'5" - 5\'8"', 'D: 5\'9" - 6\'', 'E: >6\'']
+q7_mapping = {'A': [grunt], 'B': [jackal], 'C': [flood], 'D': [elite],
+              'E': [hunter]}
+q7 = Question('How tall are you?', q7_answers, q7_mapping)
+
+q8_answers = ['A: scaredy-cat', 'B: reckless', 'C: prideful', 'D: clingy']
+q8_mapping = {'A': [grunt], 'B': [hunter], 'C': [elite], 'D': [flood]}
+q8 = Question('What not-so-nice quality do you most relate with?',
+              q8_answers, q8_mapping)
+
+question_list = [q7, q1, q8, q2, q4, q3, q5, q6]
