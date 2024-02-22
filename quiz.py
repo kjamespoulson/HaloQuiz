@@ -20,7 +20,7 @@ def home():
     instructions = ("Each question is multiple choice. Type the letter "
                     "corresponding to\nyour answer, then hit Enter/Return "
                     "on your keyboard to advance to the next question.\n")
-    learn_more = ("To learn more about Halo before you start, type 'More' "
+    learn_more = ("To learn more about Halo before you start,including exlporing Wiki pages, type 'More' "
                   "then hit Enter/Return\n")
     begin = "To begin, type 'Begin' then hit *you already know what to hit*\n"
     tip = '***** this quiz is not case-sensitive *****\n'
@@ -52,7 +52,12 @@ def quiz():
         print(qs.get_question())
         for ans in qs.get_answers():
             print(ans)
-        qs.set_response(input('> ').upper())
+        answer_input = input('> ').upper()
+        while answer_input not in qs.get_mapping():
+            print('Make sure to enter a letter corresponding to an answer '
+                  'above.\n')
+            answer_input = input('> ').upper()
+        qs.set_response(answer_input)
         for items in qs.get_mapping()[qs.get_response()]:
             items.increment_score()
         os.system('clear')
