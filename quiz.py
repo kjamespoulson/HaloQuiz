@@ -20,7 +20,8 @@ def home():
     instructions = ("Each question is multiple choice. Type the letter "
                     "corresponding to\nyour answer, then hit Enter/Return "
                     "on your keyboard to advance to the next question.\n")
-    learn_more = ("To learn more about Halo before you start,including exlporing Wiki pages, type 'More' "
+    learn_more = ("To learn more about Halo before you start,including "
+                  "exploring Wiki pages, type 'More' "
                   "then hit Enter/Return\n")
     begin = "To begin, type 'Begin' then hit *you already know what to hit*\n"
     tip = '***** this quiz is not case-sensitive *****\n'
@@ -53,6 +54,8 @@ def quiz():
         for ans in qs.get_answers():
             print(ans)
         answer_input = input('> ').upper()
+        # Check for valid answer. If options are A or B and user enters C,
+        # user is re-prompted to enter their response
         while answer_input not in qs.get_mapping():
             print('Make sure to enter a letter corresponding to an answer '
                   'above.\n')
@@ -76,3 +79,11 @@ if __name__ == '__main__':
         print('Species:', species.get_species())
         print('Score:', species.get_score(), '\n')
 
+    score = -69
+    winner = None
+    for buddies in species_list:
+        if buddies.get_score() > score:
+            score = buddies.get_score()
+            winner = buddies.get_species()
+
+    print(winner)

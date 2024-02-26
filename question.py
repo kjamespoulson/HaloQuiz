@@ -69,4 +69,19 @@ q8_mapping = {'A': [grunt], 'B': [hunter], 'C': [elite], 'D': [flood]}
 q8 = Question('What not-so-nice quality do you most relate with?',
               q8_answers, q8_mapping)
 
-question_list = [q7, q1, q8, q2, q4, q3, q5, q6]
+q9_answers = ['A: football', 'B: soccer', 'C: baseball', 'D: basketball',
+              'E: hockey']
+q9_mapping = {'A': [hunter], 'B': [jackal], 'C': [elite], 'D': [elite],
+              'E': [hunter, elite]}
+q9 = Question('What is your favorite sport?', q9_answers, q9_mapping)
+
+q10_answers = ['A: milk', 'B: cereal']
+q10_mapping = {'A': [flood], 'B': [elite]}
+q10 = Question('What do you pour first, the milk or the cereal?',
+               q10_answers, q10_mapping)
+
+q11_answers = ['A: Coke', 'B: Pepsi']
+q11_mapping = {'A': [elite], 'B': [flood]}
+q11 = Question('Coke or Pepsi?', q11_answers, q11_mapping)
+
+question_list = [q7, q1, q8, q2, q10, q4, q3, q11, q5, q6, q9]
