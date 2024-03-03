@@ -41,6 +41,37 @@ def home():
     while home_input not in home_options:
         print("Make sure you enter either 'More' or 'Begin'\n")
         home_input = input('> ').upper()
+    if home_input == 'MORE':
+        more()
+    return
+
+
+def more():
+    os.system('clear')
+    background = ("The Halo video game series begins with Halo: Combat Evolved,"
+                  " and is based on human-alien warfare in the 26th century.\n"
+                  "The first game follows one member of an advanced human "
+                  "soldier, Master Chief, as he destroys an ancient super\n"
+                  "weapon and religious artifact to the race of aliens known "
+                  "as the Covenant.\nThe Covenant is comprised of multiple "
+                  "alien species that have the same religion.\n")
+    cov_back = ("The 4 main species of Covenant are Grunts, Jackals, Elites,"
+                " and Hunters.\nGrunts are small, aggressive little aliens"
+                " but flee if they hear a bullet.\nJackals are punk little"
+                " aliens that love carrying around their own little shields"
+                "and using sniper rifles.\nElites are the leaders of the pack"
+                " and not run away. They throw grenades at you, smack the"
+                " crap out\nof you and could just stick an energy sword in"
+                "you.\nAnd lastly, Hunters are savages. They will chase you"
+                "down and hit you with their giant metal arms that double"
+                "as a plasma cannon.")
+
+    print(background)
+    print(cov_back)
+    more_input = input('> ').upper()
+    while more_input != 'DONE':
+        print("Type 'done' when you wish to take the quiz.")
+        more_input = input('> ').upper()
     return
 
 
@@ -68,16 +99,6 @@ def quiz():
 
 if __name__ == '__main__':
     home()
-    quiz()
-
-    for questions in question_list:
-        print('Question:', questions.get_question())
-        print('Options:', questions.get_answers())
-        print('Response:', questions.get_response(), '\n')
-
-    for species in species_list:
-        print('Species:', species.get_species())
-        print('Score:', species.get_score(), '\n')
 
     score = -69
     winner = None
