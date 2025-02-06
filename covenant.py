@@ -14,6 +14,9 @@ class Covenant:
     def increment_score(self):
         self.__score += 1
 
+    def decrement_score(self):
+        self.__score -= 1
+
     def get_score(self):
         return self.__score
 

@@ -5,6 +5,8 @@ from question import *
 import sys
 import os
 import climage
+import time
+from PIL import Image
 
 
 def bold(string):
@@ -43,18 +45,26 @@ def home():
         home_input = input('> ').upper()
     if home_input == 'MORE':
         more()
+    if home_input == "BEGIN":
+        quiz()
     return
 
 
 def more():
     os.system('clear')
-    background = ("The Halo video game series begins with Halo: Combat Evolved,"
-                  " and is based on human-alien warfare in the 26th century.\n"
-                  "The first game follows one member of an advanced human "
-                  "soldier, Master Chief, as he destroys an ancient super\n"
-                  "weapon and religious artifact to the race of aliens known "
-                  "as the Covenant.\nThe Covenant is comprised of multiple "
-                  "alien species that have the same religion.\n")
+    learn_title = "Learning More...\n"
+    bold(learn_title)
+    background = ("The Halo video game series begins with Halo: Combat Evolved "
+                  "and is based\non human-alien warfare in the 26th century."
+                  " The first game follows one member\nof a collection of"
+                  " advanced human soldiers, Master Chief, as he destroys\n"
+                  "an ancient super weapon and religious artifact to the "
+                  "race of aliens\nknown as the Covenant. The artifact itself "
+                  "is known as 'Halo'. The Covenant\nis comprised of multiple "
+                  "alien species that have the same religion, a\nreligion that"
+                  " worships an ancient race of aliens called the "
+                  "Forerunners, who\nwere believed to have created such "
+                  "artifacts.\n\n")
     cov_back = ("The 4 main species of Covenant are Grunts, Jackals, Elites,"
                 " and Hunters.\nGrunts are small, aggressive little aliens"
                 " but flee if they hear a bullet.\nJackals are punk little"
@@ -64,47 +74,121 @@ def more():
                 " crap out\nof you and could just stick an energy sword in"
                 "you.\nAnd lastly, Hunters are savages. They will chase you"
                 "down and hit you with their giant metal arms that double"
-                "as a plasma cannon.")
+                "as a plasma cannon.\n\n")
+    learn_more = ("If you want to go down the rabbit hole, visit this site: "
+                  "https://www.halopedia.org/Halo_universe\n"
+                  "Tip: instead of copying and pasting the link in your web"
+                  " browser, you can use this shortcut:\n"
+                  "'Ctrl' (Control) + Left Click\n")
+    keep_going = "To take the quiz, type 'Done' and hit Enter.\n"
 
     print(background)
     print(cov_back)
+    print(learn_more)
+    print(keep_going)
     more_input = input('> ').upper()
     while more_input != 'DONE':
         print("Type 'done' when you wish to take the quiz.")
         more_input = input('> ').upper()
+    if more_input == 'DONE':
+        quiz()
     return
 
 
 def quiz():
     """This function is the meat of the quiz. Includes a loop that goes
     through each question and records the responses to each question"""
+    previous = list()
     os.system('clear')
-
-    for qs in question_list:
-        print(qs.get_question())
-        for ans in qs.get_answers():
+    tip = ("Tip: At any time, you may enter 'back' to change your answer on the"
+           " most recently answered question.\n")
+    print(tip)
+    for qs in range(len(question_list)):
+        print(question_list[qs].get_question())
+        for ans in question_list[qs].get_answers():
             print(ans)
         answer_input = input('> ').upper()
         # Check for valid answer. If options are A or B and user enters C,
         # user is re-prompted to enter their response
-        while answer_input not in qs.get_mapping():
+        if answer_input == 'BACK':
+            previous = back(qs - 1, previous)
+        elif answer_input != 'BACK':
+            while answer_input not in question_list[qs].get_mapping():
+                print('Make sure to enter a letter corresponding to an answer '
+                      'above.\n')
+                answer_input = input('> ').upper()
+            previous.clear()
+            question_list[qs].set_response(answer_input)
+            for items in (
+                    question_list[qs].get_mapping()
+            )[question_list[qs].get_response()]:
+                items.increment_score()
+                previous.append(items)
+        os.system('clear')
+    results()
+
+
+def back(start, previous):
+    """This function is called by quiz() and allows a user to redo their
+    answer on the previous question"""
+    for items in previous:
+        items.decrement_score()
+    for qs in range(start, start + 2):
+        os.system('clear')
+        print(question_list[qs].get_question())
+        for ans in question_list[qs].get_answers():
+            print(ans)
+        answer = input('> ').upper()
+        while answer not in question_list[qs].get_mapping():
             print('Make sure to enter a letter corresponding to an answer '
                   'above.\n')
-            answer_input = input('> ').upper()
-        qs.set_response(answer_input)
-        for items in qs.get_mapping()[qs.get_response()]:
+            answer = input('> ').upper()
+        previous.clear()
+        question_list[qs].set_response(answer)
+        for items in (
+                question_list[qs].get_mapping()
+        )[question_list[qs].get_response()]:
             items.increment_score()
-        os.system('clear')
+            previous.append(items)
+    return previous
+
+
+def results():
+    winner_score = -69
+    winner = None
+    for folks in species_list:
+        if folks.get_score() > winner_score:
+            winner = folks.get_species()
+            winner_score = folks.get_score()
+    file = open('pipe.txt', 'w')
+    file.write(winner)
+    file.close()
+    while True:
+        time.sleep(1)
+        file = open('pipe.txt', 'r')
+        if file.readline() == winner:
+            file.close()
+        else:
+            open_image(winner)
+            break
+    bold(f'You are a {winner}!!!\n')
+    print('Thank you for playing!!!\n'
+          'Program shutting down...\n')
+
+
+def open_image(keyword):
+    # Function author: Joshua Warnick
+    # This function to open the image was originally part of the microservice,
+    # but was repurposed here when it was not found to meet the specs of
+    # the assignment
+    script_dir = os.path.abspath(os.path.dirname(__file__))
+    image_path = os.path.join(script_dir, "images", f"{keyword.lower()}.jpg")
+
+    if os.path.exists(image_path):
+        filename = os.path.basename(image_path)
+        image = Image.open(image_path)
+        image.show()
 
 
 if __name__ == '__main__':
     home()
-
-    score = -69
-    winner = None
-    for buddies in species_list:
-        if buddies.get_score() > score:
-            score = buddies.get_score()
-            winner = buddies.get_species()
-
-    print(winner)
